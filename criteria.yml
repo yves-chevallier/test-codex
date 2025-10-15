@@ -1,0 +1,116 @@
+criteria:
+  build:
+    $description: Compilation du code
+    with-no-errors:
+      $description: Aucune erreur de compilation
+      $prompt: | 
+        Execute `make` et vérifie qu'il n'y a pas d'erreurs, et que le status de sortie est bien 0.
+        -5 points si le programme ne compile pas sinon 0 points.
+      $points: [0, -5]
+    with-no-warnings:
+      $description: Aucune alerte de compilation
+      $prompt: |
+        Execute `make` et vérifie qu'il n'y a pas d'alertes, et que le status de sortie est bien 0.
+        -1 point par warning jusqu'au maximum de -5 points.
+      $points: [0, -5]
+  binary:
+    $description: Exécutable binaire
+    all-tests-passed:
+      $description: Tous les tests fonctionnels ont passés avec succès.
+      $prompt: |
+        Exécute `make test` et calcul le nombre de points sur une règle de trois par rapport au maximum 
+        de points obtenable. 
+      $points: [0, 40]
+    additional-tests:
+      $description: Les tests utilisateurs sont fonctionnels
+      $prompt: |
+        Compte le nombre de tests présents lors de l'exécution de `make test`.
+        Soustrait à ce compte les 40 tests de bases. Un point par test supplémentaire.
+      $points: [0, 5]
+  code:
+    $description: Code source
+    minimalist:
+      $description: Le code est minimaliste et optimum
+      $points: [0, 5]
+      $prompt: |
+        Analyse sans tenir compte du résultat du programme que l'implémentation va droit
+        au but sans utiliser de code superflu, d'une complexité non nécessaire.
+    comments:
+      $description: Les commentaires sont utiles et expliquent pourquoi et non comment
+      $points: [0, 5]
+      $prompt: |
+        Vérifie que les commentaires ont une valeur ajoutée, qu'ils n'expliquent pas comment 
+        faire mais pourquoi faire, et qu'ils sont pertinents pour améliorer la lecture du code.
+    consistency:
+      $description: Les conventions d'édition choisies sont cohérentes et harmonieuses dans tout le code
+      $points: [0, 5]
+      $prompt: |
+        Vérifie que les conventions d'édition (espaces, sauts de ligne, etc.) sont
+        appliquées de manière cohérente dans tout le code, ainsi que le type de nommage des variables
+        camelCase, PascalCase, snake_case... 
+        Ne vérifie pas l'indentation du code.
+    naming:
+      $description: Les conventions de nommage des variables sont appropriées
+      $points: [0, 3]
+      $prompt: |
+        Vérifie que les noms de variables sont explicites et pertinents, et qu'ils respectent 
+        les conventions de nommage en vigueur en développement en code:
+          - la longueur d'une variable est proportionnelle à son scope
+          - elles expliquent convenablement ce qu'elles représentent
+          - pour les grandeurs exprimant une unité non SI, elles sont suivies de l'unité utilisée
+    no-dead-code:
+      $description: Il n'y a pas de code mort, non exécuté ou inutile
+      $points: [0, 2]
+      $prompt: Le code non commenté sert un but précis et est nécessaire à l'exécution du programme.
+    effort-to-use-english:
+      $description: Un effort est mis sur l'utilisation de l'anglais
+      $points: [0, 1]
+      $prompt: | 
+        Vérifie que les noms de variables, les commentaires et les messages de commit sont rédigés en anglais.
+    indentation:
+      consistency:
+        $description: L'indentation du code est cohérente
+        $points: [0, 5]
+        $prompt: |
+          Vérifie que l'indentation est cohérente dans tout le code.
+  commit:
+    $description: Commits sous Git
+    segmentation:
+      $description: Les commits sont bien partagés en blocs fonctionnels
+      $points: [0, 1]
+      $prompt: |
+        Exécute `git log --oneline` et vérifie que le nombre de commits est cohérent.
+    good-comments:
+      $description: Les commentaires de commit sont concis, précis et cohérents.
+      $points: [0, 1]
+      $prompt: |
+        Vérifie que les commentaires de commit sont concis, précis et cohérents.
+  bonus:
+    $description: Bonus
+    version:
+      $description: L'étudiant a implémenté l'option -v affichant la version de son programme.
+      $bonus: [0, 1]
+      $prompt: |
+        Vérifie que le programme `./gcd -v` affiche la version de son programme.
+    creativity:
+      $description: L'étudiant a apporté de la créativité au projet.
+      $bonus: [0, 1]
+      $prompt: | 
+        Juge de la créativité au projet, des améliorations par rapport au cahier des charges initial
+        décrit dans README.md.
+    proactivity:
+      $description: L'étudiant a démontré une certaine proactivité en allant plus loin que le cahier des charges initial.
+      $bonus: [0, 1]
+      $prompt: |
+        Juge s'il y a des fonctionnalités supplémentaires intéressantes par rapport au cahier des charges présent dans `README.md`.
+    rigourous:
+      $description: L'étudiant s'est montré rigoureux avec la donnée, son travail et le résultat obtenu.
+      $bonus: [0, 1]
+      $prompt: |
+        Juge de la rigueur avec laquelle l'étudiant a traité les données, a effectué son travail et a obtenu des résultats.
+    references:
+      $description: Des références sont faites sur les sources des données extérieures.
+      $bonus: [0, 1]
+      $prompt: |
+        Observe si l'étudiant à commenté ou informé sur les sources des données extérieures utilisées.
+        S'il n'y a pas d'information aucun point n'est donné.
