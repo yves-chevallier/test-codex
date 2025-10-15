@@ -1,0 +1,220 @@
+---
+version: 1
+filters:
+  regex:
+    - " +"
+    - " "
+tests:
+  - name: Typical use
+    tests:
+      - name: Test 1
+        args: [120, 100, 1, 4, 3, 12]
+        stdout:
+          - contains: "│ TOTAL HT │ 30.80 │"
+          - contains: "│ TVA │ 2.46 │"
+          - contains: "│ TOTAL TTC │ 33.26 │"
+        exit: 0
+      - name: Test 2
+        args: [100, 160, 4, 45, 23, 99]
+        stdout:
+          - contains: "│ TOTAL HT │ 109.80 │"
+          - contains: "│ TVA │ 8.78 │"
+          - contains: "│ TOTAL TTC │ 118.58 │"
+        exit: 0
+  - name: PCB
+    tests:
+      - name: PCB 100x100 1 couche
+        args: [100, 100, 1, 0, 0, 0]
+        stdout:
+          - contains: "│ PCB (cm2) │ 100 │ 0.12 │ 12.00 │"
+        exit: 0
+      - name: PCB 100x199 1 couche
+        args: [100, 199, 1, 0, 0, 0]
+        stdout:
+          - contains: "│ PCB (cm2) │ 199 │ 0.12 │ 23.88 │"
+        exit: 0
+      - name: PCB 200x100 1 couche
+        args: [200, 100, 1, 0, 0, 0]
+        stdout:
+          - contains: "│ PCB (cm2) │ 200 │ 0.10 │ 20.00 │"
+        exit: 0
+  - name: Diodes
+    tests:
+      - name: PCB 100x100 1 couche 1 diode
+        args: [100, 100, 1, 1, 0, 0]
+        stdout:
+          - contains: "│ DIODE │ 1 │ 0.75 │ 0.75 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 9 diodes
+        args: [100, 100, 1, 9, 0, 0]
+        stdout:
+          - contains: "│ DIODE │ 9 │ 0.75 │ 6.75 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 10 diodes
+        args: [100, 100, 1, 10, 0, 0]
+        stdout:
+          - contains: "│ DIODE │ 10 │ 0.70 │ 7.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 19 diodes
+        args: [100, 100, 1, 19, 0, 0]
+        stdout:
+          - contains: "│ DIODE │ 19 │ 0.70 │ 13.30 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 20 diodes
+        args: [100, 100, 1, 20, 0, 0]
+        stdout:
+          - contains: "│ DIODE │ 20 │ 0.60 │ 12.00 │"
+        exit: 0
+  - name: Condensateurs
+    tests:
+      - name: PCB 100x100 1 couche 1 condensateurs
+        args: [100, 100, 1, 0, 1, 0]
+        stdout:
+          - contains: "│ CONDENSATEUR │ 1 │ 1.00 │ 1.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 9 condensateurs
+        args: [100, 100, 1, 0, 9, 0]
+        stdout:
+          - contains: "│ CONDENSATEUR │ 9 │ 1.00 │ 9.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 10 condensateurs
+        args: [100, 100, 1, 0, 10, 0]
+        stdout:
+          - contains: "│ CONDENSATEUR │ 10 │ 0.80 │ 8.00 │"
+        exit: 0
+      - name: PCB 1x2 3 couches, 4 diodes 42 condensateurs et 12 résistances
+        args: [1, 2, 3, 4, 42, 12]
+        stdout:
+          - contains: "│ CONDENSATEUR │ 42 │ 0.80 │ 33.60 │"
+        exit: 0
+  - name: Résistances
+    tests:
+      - name: PCB 100x100 1 couche 0 résistances
+        args: [100, 100, 1, 0, 0, 0]
+        stdout:
+          - contains: "│ RÉSISTANCE(x10) │ 0 │ 1.00 │ 0.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 1 résistance
+        args: [100, 100, 1, 0, 0, 1]
+        stdout:
+          - contains: "│ RÉSISTANCE(x10) │ 1 │ 1.00 │ 1.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 9 résistances
+        args: [100, 100, 1, 0, 0, 9]
+        stdout:
+          - contains: "│ RÉSISTANCE(x10) │ 1 │ 1.00 │ 1.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 10 résistances
+        args: [100, 100, 1, 0, 0, 10]
+        stdout:
+          - contains: "│ RÉSISTANCE(x10) │ 1 │ 1.00 │ 1.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 11 résistances
+        args: [100, 100, 1, 0, 0, 11]
+        stdout:
+          - contains: "│ RÉSISTANCE(x10) │ 2 │ 1.00 │ 2.00 │"
+        exit: 0
+      - name: PCB 100x100 1 couche 1234 résistances
+        args: [100, 100, 1, 0, 0, 1234]
+        stdout:
+          - contains: "│ RÉSISTANCE(x10) │ 124 │ 1.00 │ 124.00 │"
+        exit: 0
+  - name: Vernis épargne
+    tests:
+      - name: PCB 1 couche
+        args: [100, 100, 1, 0, 0, 0]
+        stdout:
+          - contains: "│ VERNIS │ 200 │ 0.01 │ 2.00 │"
+        exit: 0
+      - name: PCB 4 couches
+        args: [100, 100, 4, 0, 0, 0]
+        stdout:
+          - contains: "│ VERNIS │ 200 │ 0.01 │ 2.00 │"
+        exit: 0
+  - name: Arguments
+    tests:
+      - name: Invalid number of arguments with 5 arguments
+        args: [100, 1, 4, 3, 12]
+        stdout: []
+        exit: 1
+      - name: Invalid number of arguments with 7 arguments
+        args: [100, 100, 100, 1, 4, 12, 42]
+        stdout: []
+        exit: 2
+      - name: Invalid when null width
+        args: [0, 100, 1, 4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Invalid when negative width
+        args: [-120, 100, 1, 4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Invalid when null height
+        args: [120, 0, 1, 4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Invalid when negative height
+        args: [120, -100, 1, 4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Invalid when zero layers
+        args: [120, 100, 0, 4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Invalid when negative layers
+        args: [120, 100, -1, 4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Valid when zero resistors amount
+        args: [120, 100, 1, 0, 3, 12]
+        stdout: []
+        exit: 0
+      - name: Invalid when negative resistors amount
+        args: [120, 100, 1, -4, 3, 12]
+        stdout: []
+        exit: 4
+      - name: Valid when zero capacitors amount
+        args: [120, 100, 1, 4, 0, 12]
+        stdout: []
+        exit: 0
+      - name: Invalid when negative capacitors amount
+        args: [120, 100, 1, 4, -10, 12]
+        stdout: []
+        exit: 4
+      - name: Valid when zero diodes amount
+        args: [120, 100, 1, 4, 5, 0]
+        stdout: []
+        exit: 0
+      - name: Invalid when negative diodes amount
+        args: [120, 100, 1, 4, 5, -10]
+        stdout: []
+        exit: 4
+      - name: Not a number error for width
+        args: ['not a number', 100, 1, 4, 5, 10]
+        stdout: []
+        exit: 4
+      - name: Not a number error for height
+        args: [100, 'not a number', 1, 4, 5, 10]
+        stdout: []
+        exit: 4
+      - name: Not a number error for layers
+        args: [100, 100, 'not a number', 4, 5, 10]
+        stdout: []
+        exit: 4
+      - name: All wrong
+        args: [-1, -2, -3, -4, -5, -6]
+        stdout: []
+        exit: 4
+  - name: Table
+    tests:
+      - name: Header
+        args: [1, 1, 1, 1, 1, 1]
+        stdout:
+          - contains: "│ ÉLEMENT │ QTÉ. │ PU │ PT │"
+      - name: Table structure
+        args: [1, 1, 1, 1, 1, 1]
+        stdout:
+          - contains: "┌─────────────────┬──────┬───────┬────────┐"
+          - contains: "├─────────────────┼──────┼───────┼────────┤"
+          - contains: "├─────────────────┴──────┴───────┼────────┤"
+          - contains: "└────────────────────────────────┴────────┘"
